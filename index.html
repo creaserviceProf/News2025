@@ -78,16 +78,18 @@ header h1 {
 }
 
 .navbar a {
-    color: var(--text-color);
-    text-decoration: none;
-    padding: 10px 20px;
-    margin: 0 5px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    display: flex;
-    align-items: center;
-    font-weight: 600;
+  color: var(--text-color);
+  background-color: transparent;
+  text-decoration: none;
+  padding: 10px 20px;
+  margin: 0 5px;
+  border-radius: 5px;
+  transition: background-color 0.1s ease, color 0.3s ease;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
 }
+
 
 .navbar a:hover {
     background-color: var(--secondary-color);
@@ -280,18 +282,18 @@ footer {
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
     header h1 {
         font-size: 2em;
     }
 
     .navbar a {
-        padding: 8px 15px;
-        font-size: 0.9em;
+        justify-content: center;
+        font-size: 0; /* masque le texte */
     }
 
     .navbar a svg {
-        margin-right: 5px;
+        margin-right: 0 !important;
         width: 18px;
         height: 18px;
     }
@@ -330,34 +332,79 @@ footer {
 
     </style>
 </head>
+	
+<script>
+  const startColor = {r: 37, g: 117, b: 252}; // #2575fc
+  const endColor = {r: 106, g: 17, b: 203};   // #6a11cb
+const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+
+  // Interpole entre deux couleurs RGB
+  function interpolateColor(start, end, factor) {
+    const r = Math.round(start.r + factor * (end.r - start.r));
+    const g = Math.round(start.g + factor * (end.g - start.g));
+    const b = Math.round(start.b + factor * (end.b - start.b));
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+
+  // Met à jour la couleur des boutons au survol dynamiquement en fonction du scroll
+  function updateButtonColors() {
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const factor = maxScroll === 0 ? 0 : Math.min(window.scrollY / maxScroll, 1);
+    const bgColor = interpolateColor(startColor, endColor, factor);
+
+    const buttons = document.querySelectorAll('.navbar a');
+
+    buttons.forEach((button) => {
+      button.onmouseenter = () => {
+        button.style.backgroundColor = bgColor;
+        button.style.color = '#fff';
+      };
+      button.onmouseleave = () => {
+        button.style.backgroundColor = 'transparent';
+        button.style.color = '';
+      };
+    });
+  }
+
+  window.addEventListener('scroll', updateButtonColors);
+  window.addEventListener('load', updateButtonColors);
+</script>
+
+
+
 <body>
     <div class="container"><br>
 
-        <header>
-            <h1>Outils d'IA Générative à tester</h1>
-            <nav class="navbar">
-                <a href="#image">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-                    Image
-                </a>
-                <a href="#video">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
-                    Vidéo
-                </a>
-                <a href="#text">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 10H3V8h2v4h2V8h2v4h2V8h2v4h2V8h2v4h2V8h2v8z"/></svg>
-                    Texte
-                </a>
-                <a href="#avatar">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                    Avatar
-                </a>
-                <a href="#coding">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.6 16.6L19.2 12l-4.6-4.6L16 6l6 6-6 6-1.4-1.4zm-5.2 0L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4z"/></svg>
-                    Codage
-                </a>
-            </nav>
-        </header>
+<header>
+    <h1>Outils d'IA Générative à tester</h1>
+    <nav class="navbar">
+        <a href="#image">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+            Image
+        </a>
+        <a href="#video">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+            Vidéo
+        </a>
+        <a href="#text">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 10H3V8h2v4h2V8h2v4h2V8h2v4h2V8h2v4h2V8h2v8z"/></svg>
+            Texte
+        </a>
+        <a href="#avatar">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            Avatar
+        </a>
+        <a href="#creative-studios">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z"/></svg>
+            Créa
+        </a>
+        <a href="#coding">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.6 16.6L19.2 12l-4.6-4.6L16 6l6 6-6 6-1.4-1.4zm-5.2 0L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4z"/></svg>
+            Codage
+        </a>
+    </nav>
+</header>
+
 
         <!-- Section Image -->
         <section id="image" class="section">
@@ -1016,6 +1063,152 @@ footer {
             </div>
         </section>
 
+	<!-- creative-studios -->
+<section id="creative-studios" class="section">
+  <div class="section-header">
+    <svg class="section-icon" viewBox="0 0 24 24">
+      <path d="M12 2L2 22h20L12 2z"/>
+    </svg>
+    <h2 class="section-title">Générateurs Créatifs & Studios IA</h2>
+  </div>
+  <div class="tools-grid">
+
+    <div class="tool-card">
+      <div class="tool-header">
+        <div class="tool-logo">KA</div>
+        <h3 class="tool-name">Krea AI</h3>
+      </div>
+      <div class="tool-card-img" style="background-image: url('https://images.prismic.io/contrary-research/aFNXfrNJEFaPYFf__KreaAI_Cover.png?auto=format');"></div>
+      <p class="tool-description">Plateforme IA rapide pour la génération d’images et vidéos créatives avec outils intuitifs conçus pour les artistes et créateurs.</p>
+      <ul class="tool-features">
+        <li>Génération rapide</li>
+        <li>Interface intuitive</li>
+        <li>Styles artistiques variés</li>
+        <li>Édition vidéo intégrée</li>
+      </ul>
+      <a href="https://krea.ai" class="tool-link" target="_blank" rel="noopener noreferrer">Découvrir</a>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-header">
+        <div class="tool-logo">OC</div>
+        <h3 class="tool-name">Open Creator</h3>
+      </div>
+      <div class="tool-card-img" style="background-image: url('https://i.ytimg.com/vi/O7V6bG_DlkI/maxresdefault.jpg');"></div>
+      <p class="tool-description">Studio IA complet pour création multimédia combinant images, vidéos et animation avec personnalisation avancée.</p>
+      <ul class="tool-features">
+        <li>Combinaison image & vidéo</li>
+        <li>Personnalisation complète</li>
+        <li>Effets spéciaux intégrés</li>
+        <li>Exportation multiformat</li>
+      </ul>
+      <a href="https://opencreator.com" class="tool-link" target="_blank" rel="noopener noreferrer">Découvrir</a>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-header">
+        <div class="tool-logo">OA</div>
+        <h3 class="tool-name">OpenArt</h3>
+      </div>
+      <div class="tool-card-img" style="background-image: url('https://www.aigantic.com/wp-content/uploads/2023/09/OpenArt-Logo.jpg');"></div>
+      <p class="tool-description">Communauté d’art IA proposant un générateur d’images puissant avec moteur stable diffusion et large base de prompts.</p>
+      <ul class="tool-features">
+        <li>Large communauté</li>
+        <li>Moteur Stable Diffusion</li>
+        <li>Bibliothèque de prompts</li>
+        <li>Interface sociale</li>
+      </ul>
+      <a href="https://openart.ai" class="tool-link" target="_blank" rel="noopener noreferrer">Découvrir</a>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-header">
+        <div class="tool-logo">DA</div>
+        <h3 class="tool-name">DeepAI</h3>
+      </div>
+      <div class="tool-card-img" style="background-image: url('https://cdn2.dicloak.net/image-to-link/Share%20Account/deepai%20list.png?x-oss-process=image/interlace,1/format,webp/quality,q_100');"></div>
+      <p class="tool-description">Plateforme d’outils IA dont génération d’images, enhancement vidéo, et outils API pour intégration facile.</p>
+      <ul class="tool-features">
+        <li>Outils variés</li>
+        <li>API accessible</li>
+        <li>Intégration facile</li>
+        <li>Open Source partiel</li>
+      </ul>
+      <a href="https://deepai.org" class="tool-link" target="_blank" rel="noopener noreferrer">Découvrir</a>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-header">
+        <div class="tool-logo">GL</div>
+        <h3 class="tool-name">Getimg.ai</h3>
+      </div>
+      <div class="tool-card-img" style="background-image: url('https://10web.io/wp-content/uploads/2024/07/getimgai.png');"></div>
+      <p class="tool-description">Générateur d’images IA à haute résolution avec contrôle fin, support de variantes et création artistiques.</p>
+      <ul class="tool-features">
+        <li>Haute résolution</li>
+        <li>Variantes d’image</li>
+        <li>Interface intuitive</li>
+        <li>Support API</li>
+      </ul>
+      <a href="https://getimg.ai" class="tool-link" target="_blank" rel="noopener noreferrer">Découvrir</a>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-header">
+        <div class="tool-logo">PL</div>
+        <h3 class="tool-name">Pixlr</h3>
+      </div>
+      <div class="tool-card-img" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKKGLeSqM8Xl6BbUTnPwHh9XlBCJRhZnmtUA&s');"></div>
+      <p class="tool-description">Editeur photo en ligne avec intégration IA, filtre avancés, correction rapide et outils créatifs intégrés.</p>
+      <ul class="tool-features">
+        <li>Editeur photo avancé</li>
+        <li>Filtres IA</li>
+        <li>Correction rapide</li>
+        <li>Modes créatifs</li>
+      </ul>
+      <a href="https://pixlr.com" class="tool-link" target="_blank" rel="noopener noreferrer">Découvrir</a>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-header">
+        <div class="tool-logo">DZ</div>
+        <h3 class="tool-name">Dzine</h3>
+      </div>
+      <div class="tool-card-img" style="background-image: url('https://appbanquyen.com/wp-content/uploads/2025/07/Dzine-AI.webp');"></div>
+      <p class="tool-description">Outils de design créatif IA pour la génération d’images conceptuelles et le prototypage rapide.</p>
+      <ul class="tool-features">
+        <li>Design créatif</li>
+        <li>Prototypage rapide</li>
+        <li>Concepts IA</li>
+        <li>Interface intuitive</li>
+      </ul>
+      <a href="https://dzine.ai" class="tool-link" target="_blank" rel="noopener noreferrer">Découvrir</a>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-header">
+        <div class="tool-logo">LAI</div>
+        <h3 class="tool-name">Leonardo AI</h3>
+      </div>
+      <div class="tool-card-img" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcGvHJba56up7P7NX9nrXnFO5s_4d6I7_4og&s');"></div>
+      <p class="tool-description">Plateforme de création d’images IA avec modèles spécialisés, communautés et outils d’intégration avancés.</p>
+      <ul class="tool-features">
+        <li>Modèles spécialisés</li>
+        <li>Communautés artistiques</li>
+        <li>Outils d’intégration</li>
+        <li>Personnalisation</li>
+      </ul>
+      <a href="https://leonardo.ai" class="tool-link" target="_blank" rel="noopener noreferrer">Découvrir</a>
+    </div>
+
+  </div>
+</section>
+
+
+		
+		
+		
+		
         <!-- Section Codage -->
         <section id="coding" class="section">
             <div class="section-header">
@@ -1166,6 +1359,43 @@ footer {
     <footer>
         <p>&copy; 2025 Newsletter IA Générative. Tous droits réservés.</p>
     </footer>
+	
+	<script>
+  function easeOutCubic(t) {
+    return 1 - Math.pow(1 - t, 3);
+  }
+
+  function smoothScrollTo(target, duration = 600) {
+    const start = window.pageYOffset;
+    const end = target.getBoundingClientRect().top + start;
+    const distance = end - start;
+    let startTime = null;
+
+    function animation(currentTime) {
+      if (!startTime) startTime = currentTime;
+      const timeElapsed = currentTime - startTime;
+      const progress = Math.min(timeElapsed / duration, 1);
+      const ease = easeOutCubic(progress);
+      window.scrollTo(0, start + (distance * ease));
+      if (timeElapsed < duration) {
+        requestAnimationFrame(animation);
+      }
+    }
+    requestAnimationFrame(animation);
+  }
+
+  document.querySelectorAll('.navbar a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const targetID = this.getAttribute('href').substring(1);
+      const targetElement = document.getElementById(targetID);
+      if (targetElement) {
+        smoothScrollTo(targetElement);
+      }
+    });
+  });
+</script>
+
 </body>
 </html>
 
