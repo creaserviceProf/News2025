@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newsletter IA Générative</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+       :root {
+    --primary-color: #6a11cb;
+    --secondary-color: #2575fc;
+    --dark-bg: #1a1a2e;
+    --card-bg: #16213e;
+    --text-color: #e0e0e0;
+    --light-text: #b0b0b0;
+    --border-color: #0f3460;
+    --gradient-start: #2575fc;
+    --gradient-end: #6a11cb;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+    color: var(--text-color);
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48ZyBmaWxsPSIjOTk5OTk5IiBmaWxsLW9wYWNpdHk9Ii4wNyI+PHBhdGggZD0iTTM2IDM0bC02LTUtNiA1aDEyem0wLTMybC02LTUtNiA1aDEyem0wIDY0bC02LTUtNiA1aDEyem00LTMwbC00LTQtNC00LTQgNHY4bDQgNCA0LTR2LTh6bTAtMzJsLTQtNC00IDQgNCA0djhsNCA0IDQtNHYtOHptMC0zMmwtNC00LTQgNCA0IDR2OGw0IDQgNC00di04em0tMzIgNjRsLTYtNS02IDVoMTJ6bTAtMzJsLTYtNS02IDVoMTJ6bTAtMzJsLTYtNS02IDVoMTJ6bTAtMzJsLTYtNS02IDVoMTJ6bS00IDMwbC00LTQtNC00LTQgNHY4bDQgNCA0LTR2LTh6bTAtMzJsLTQtNC00LTQgNCA0djhsNCA0IDQtNHYtOHoiIGZpbGwtcnVsZT0ibm9uemVybyIvPjwvZz48L2c+PC9zdmc+') repeat;
+    opacity: 0.1;
+    z-index: -1;
+}
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+header {
+    background: var(--dark-bg);
+    padding: 20px 0;
+    text-align: center;
+    border-bottom: 3px solid var(--secondary-color);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header h1 {
+    margin: 0;
+    color: #fff;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    background: var(--card-bg);
+    padding: 10px 0;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.navbar a {
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+}
+
+.navbar a:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.navbar a svg {
+    margin-right: 8px;
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+.section {
+    background-color: var(--dark-bg);
+    margin: 40px 0;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border-color);
+    transition: transform 0.3s ease-out;
+}
+
+.section:hover {
+    transform: translateY(-5px);
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: 2px solid var(--secondary-color);
+    padding-bottom: 15px;
+}
+
+.section-header .section-icon {
+    width: 35px;
+    height: 35px;
+    fill: var(--secondary-color);
+    margin-right: 15px;
+}
+
+.section-title {
+    color: #fff;
+    font-size: 2em;
+    margin: 0;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.tool-card {
+    position: relative;
+    height: 420px;
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    padding: 20px; /* Keep padding for text */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+.tool-card-img {
+    width: 120%;
+    height: 40%;
+    min-height: 100px;
+    background-size: cover;
+    background-position: center;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    position: relative;
+	opacity:50%;
+    z-index: 0;
+    padding: 0; /* Remove any padding on image */
+    margin: -20px 0px 0 -20px; /* negate the parent padding */
+}
+
+
+.tool-header {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    z-index: 1;
+    color: #fff;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.tool-logo {
+    width: 40px;
+    height: 40px;
+    background-color:#fff ;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 1.2em;
+    color: var(--secondary-color);
+    margin-right: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+	text-shadow: 0 0 0  rgba(0, 0, 0, 0.8);
+}
+
+.tool-name {
+    margin: 0;
+    font-size: 1.5em;
+	line-height: 0.8em;
+}
+
+.tool-description {
+    color: var(--light-text);
+    font-size: 0.95em;
+    margin-bottom: 15px;
+    flex-grow: 1;
+}
+
+.tool-features {
+    list-style: none;
+    padding: 0;
+    margin: 0px -10px 15px -10px;
+}
+
+.tool-features li {
+    background-color: rgba(37, 117, 252, 0.1);
+    color: var(--secondary-color);
+    padding: 5px 5px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    font-size: 0.65em;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.tool-link {
+    display: inline-block;
+    background: linear-gradient(45deg, var(--secondary-color), var(--primary-color) );
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.tool-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+footer {
+    text-align: center;
+    padding: 30px 0;
+    color: var(--light-text);
+    font-size: 0.9em;
+    margin-top: 40px;
+    border-top: 1px solid var(--border-color);
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-wrap: wrap;
+    }
+
+    .navbar a {
+        flex-grow: 1;
+        margin: 5px;
+        justify-content: center;
+    }
+
+    .section-title {
+        font-size: 1.8em;
+    }
+
+    .tools-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 2em;
+    }
+
+    .navbar a {
+        padding: 8px 15px;
+        font-size: 0.9em;
+    }
+
+    .navbar a svg {
+        margin-right: 5px;
+        width: 18px;
+        height: 18px;
+    }
+
+    .section {
+        padding: 20px;
+    }
+
+    .section-title {
+        font-size: 1.5em;
+    }
+
+    .tool-card {
+        padding: 15px;
+    }
+
+    .tool-name {
+        font-size: 1.3em;
+    }
+
+    .tool-description {
+        font-size: 0.9em;
+    }
+
+    .tool-features li {
+        font-size: 0.8em;
+        padding: 4px 8px;
+    }
+
+    .tool-link {
+        padding: 8px 15px;
+        font-size: 0.9em;
+    }
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="container"><br>
+
+        <header>
+            <h1>Outils d'IA Générative à tester</h1>
+            <nav class="navbar">
+                <a href="#image">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                    Image
+                </a>
+                <a href="#video">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+                    Vidéo
+                </a>
+                <a href="#text">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 10H3V8h2v4h2V8h2v4h2V8h2v4h2V8h2v4h2V8h2v8z"/></svg>
+                    Texte
+                </a>
+                <a href="#avatar">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                    Avatar
+                </a>
+                <a href="#coding">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.6 16.6L19.2 12l-4.6-4.6L16 6l6 6-6 6-1.4-1.4zm-5.2 0L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4z"/></svg>
+                    Codage
+                </a>
+            </nav>
+        </header>
+
+        <!-- Section Image -->
+        <section id="image" class="section">
+            <div class="section-header">
+                <svg class="section-icon" viewBox="0 0 24 24">
+                    <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                </svg>
+                <h2 class="section-title">Générateurs d'Image IA</h2>
+            </div>
+            <div class="tools-grid">
+<div class="tool-card">
+    <div class="tool-card-img" style="background-image: url('https://static.beebom.com/wp-content/uploads/2023/04/Featured-Midjourney-.jpg?w=750&quality=75');"></div>
+    <div class="tool-header">
+        <div class="tool-logo">MJ</div>
+        <h3 class="tool-name">Midjourney</h3>
+    </div>
+    <p class="tool-description">Générateur d'images IA de haute qualité, connu pour son esthétique artistique.</p>
+    <ul class="tool-features">
+        <li>Images artistiques</li>
+        <li>Haute résolution</li>
+        <li>Grande communauté</li>
+        <li>Commandes Discord</li>
+    </ul>
+    <a href="https://www.midjourney.com" class="tool-link" target="_blank">Découvrir</a>
+</div>
+
+
+
+<div class="tool-card">
+    <div class="tool-header">
+        <div class="tool-logo">D3</div>
+        <h3 class="tool-name">DALL-E 3</h3>
+    </div>
+    <div class="tool-card-img" style="background-image: url('https://static0.makeuseofimages.com/wordpress/wp-content/uploads/2024/09/open-ai-dall-e-3-logo-on-futuristic-dark-blue-wave-abstract-background.jpg?w=1200&h=628&fit=crop');"></div>
+
+    <p class="tool-description">Le générateur d'images d'OpenAI, intégré à ChatGPT, pour des créations précises.</p>
+    <ul class="tool-features">
+        <li>Intégration ChatGPT</li>
+        <li>Compréhension contextuelle</li>
+        <li>Génération rapide</li>
+        <li>Images variées</li>
+    </ul>
+    <a href="https://openai.com/dall-e-3" class="tool-link" target="_blank">Découvrir</a>
+</div>
+
+
+
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">SD</div>
+                        <h3 class="tool-name">Stable Diffusion</h3>
+                    </div>
+				<div class="tool-card-img" style="background-image: url('https://cdn.prod.website-files.com/638a13b5c8b193eec31833df/6735cceb4abc8ff6024e41c6_1_Rbq9cDCJpGq7HKeNAeIitg.webp');">
+				</div>
+                    <p class="tool-description">Modèle open-source pour la génération d'images, offrant une grande flexibilité.</p>
+                    <ul class="tool-features">
+                        <li>Open-source</li>
+                        <li>Personnalisable</li>
+                        <li>Modèles variés</li>
+                        <li>Utilisation locale</li>
+                    </ul>
+                    <a href="https://stability.ai/stable-diffusion" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">AF</div>
+                        <h3 class="tool-name">Adobe Firefly</h3>
+                    </div>
+				<div class="tool-card-img" style="background-image: url('https://i.ytimg.com/vi/N9lQtIFHfKU/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAJrxDwSv4gV8CxKCSaKxgaE-lgmw');">
+				</div>
+                    <p class="tool-description">Suite d'outils IA d'Adobe pour la création et l'édition d'images et de vidéos.</p>
+                    <ul class="tool-features">
+                        <li>Intégration Adobe</li>
+                        <li>Fonctionnalités d'édition</li>
+                        <li>Génération de texte</li>
+                        <li>Contenu sécurisé</li>
+                    </ul>
+                    <a href="https://www.adobe.com/sensei/generative-ai/firefly.html" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">LA</div>
+                        <h3 class="tool-name">Leonardo.ai</h3>
+                    </div>
+				<div class="tool-card-img" style="background-image: url('https://www.bworldonline.com/wp-content/uploads/2024/07/Leonardo-AI-logo.jpg');">
+				</div>
+                    <p class="tool-description">Plateforme de génération d'images avec des outils de personnalisation avancés.</p>
+                    <ul class="tool-features">
+                        <li>Modèles personnalisés</li>
+                        <li>Contrôle créatif</li>
+                        <li>Génération rapide</li>
+                        <li>Communauté active</li>
+                    </ul>
+                    <a href="https://leonardo.ai" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+               
+
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">NI</div>
+                        <h3 class="tool-name">NightCafe</h3>
+                    </div>
+				<div class="tool-card-img" style="background-image: url('https://i.ytimg.com/vi/ZnvfEw73PgY/maxresdefault.jpg');">
+				</div>
+                    <p class="tool-description">Plateforme d'art IA avec de nombreux styles et algorithmes pour des créations uniques.</p>
+                    <ul class="tool-features">
+                        <li>Styles artistiques</li>
+                        <li>Algorithmes variés</li>
+                        <li>Impression disponible</li>
+                        <li>Communauté active</li>
+                    </ul>
+                    <a href="https://creator.nightcafe.studio/" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+               <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">GI</div>
+                        <h3 class="tool-name">Google Imagen 4</h3>
+                    </div>
+				 <div class="tool-card-img" style="background-image: url('https://i.ytimg.com/vi/HyOW6fmkgrc/maxresdefault.jpg');">
+				</div>
+                    <p class="tool-description">Le modèle de Google pour la génération d'images de haute fidélité à partir de texte.</p>
+                    <ul class="tool-features">
+                        <li>Haute fidélité</li>
+                        <li>Compréhension du texte</li>
+                        <li>Génération rapide</li>
+                        <li>Intégration Google</li>
+                    </ul>
+                    <a href="https://imagen.research.google/" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">AR</div>
+                        <h3 class="tool-name">Artbreeder</h3>
+                    </div>
+				<div class="tool-card-img" style="background-image: url('https://images.apifyusercontent.com/Fe51_TrOQylMSpkNMwJc3VkdTt9-crAT8-yFDgJL9Zs/w:1800/cb:1/aHR0cHM6Ly9pLnBvc3RpbWcuY2MvZFZndjhLNjMvMTAwMDAyMjk2NS5wbmc.webp');">
+					</div>
+                    <p class="tool-description">Outil de création d'images basé sur l'IA pour mélanger et modifier des images existantes.</p>
+                    <ul class="tool-features">
+                        <li>Mélange d'images</li>
+                        <li>Variations infinies</li>
+                        <li>Contrôle créatif</li>
+                        <li>Communauté collaborative</li>
+                    </ul>
+                    <a href="https://www.artbreeder.com/" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Vidéo -->
+        <section id="video" class="section">
+            <div class="section-header">
+                <svg class="section-icon" viewBox="0 0 24 24">
+                    <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/>
+                </svg>
+                <h2 class="section-title">Générateurs de Vidéo IA</h2>
+            </div>
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">S</div>
+                        <h3 class="tool-name">Sora</h3>
+                    </div>
+				<div class="tool-card-img" style="background-image: url('https://sagartech.co.in/blogs/wp-content/uploads/2024/03/maxresdefault.jpg');">
+				</div>
+                    <p class="tool-description">Le modèle d'OpenAI pour la génération de vidéos réalistes à partir de texte.</p>
+                    <ul class="tool-features">
+                        <li>Vidéos réalistes</li>
+                        <li>Longues séquences</li>
+                        <li>Compréhension du texte</li>
+                        <li>Mouvements complexes</li>
+                    </ul>
+                    <a href="https://openai.com/sora" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">R</div>
+                        <h3 class="tool-name">Runway Gen-4</h3>
+                    </div>
+				<div class="tool-card-img" style="background-image: url('https://the-tech-crib.com/wp-content/uploads/2024/10/runway-ai_upscaled.jpg?w=1024');">
+				</div>
+                    <p class="tool-description">Plateforme de création vidéo IA avec des outils d'édition et de génération avancés.</p>
+                    <ul class="tool-features">
+                        <li>Texte en vidéo</li>
+                        <li>Image en vidéo</li>
+                        <li>Édition vidéo</li>
+                        <li>Effets spéciaux</li>
+                    </ul>
+                    <a href="https://runwayml.com/gen-4/" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+               <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">K</div>
+                        <h3 class="tool-name">Kling AI</h3>
+                    </div>
+				 <div class="tool-card-img" style="background-image: url('https://dl-file.cyberlink.com/web/upload-file/learning-center/fra/2025/6/Thumbnail_20250602191545183.jpg');">
+				</div>
+                    <p class="tool-description">Générateur de vidéos IA de haute qualité, avec un accent sur la narration visuelle.</p>
+                    <ul class="tool-features">
+                        <li>Narration visuelle</li>
+                        <li>Vidéos cinématographiques</li>
+                        <li>Effets avancés</li>
+                        <li>Interface intuitive</li>
+                    </ul>
+                    <a href="https://kling.ai" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+               <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">P</div>
+                        <h3 class="tool-name">Pika 2.0</h3>
+                    </div>
+				 <div class="tool-card-img" style="background-image: url('https://pikalabs.net/wp-content/uploads/2025/05/pika-2.2.png');">
+				</div>
+                    <p class="tool-description">Outil de génération de vidéos IA rapide et facile pour des clips courts et créatifs.</p>
+                    <ul class="tool-features">
+                        <li>Clips courts</li>
+                        <li>Génération rapide</li>
+                        <li>Effets visuels</li>
+                        <li>Musique de fond</li>
+                    </ul>
+                    <a href="https://pika.art" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">LD</div>
+                        <h3 class="tool-name">Luma Dream Machine</h3>
+                    </div>
+				<div class="tool-card-img" style="background-image: url('https://images.yourstory.com/cs/2/96eabe90392211eb93f18319e8c07a74/Untitleddesign4-1718366006971.png?mode=crop&crop=faces&ar=2%3A1&format=auto&w=1920&q=75');">
+				</div>
+                    <p class="tool-description">Générateur de vidéos 3D IA pour des animations complexes et des mondes virtuels.</p>
+                    <ul class="tool-features">
+                        <li>Vidéos 3D</li>
+                        <li>Animations complexes</li>
+                        <li>Mondes virtuels</li>
+                        <li>Rendu haute qualité</li>
+                    </ul>
+                    <a href="https://lumalabs.ai/dream-machine" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">GV</div>
+                        <h3 class="tool-name">Google Veo</h3>
+                    </div>
+				<div class="tool-card-img" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRai1xXET1yiqgx4NYA7mgm0HP7GqiwyEINfg&s');">
+				</div>
+                    <p class="tool-description">Le modèle de Google pour la génération de vidéos de haute qualité et de longue durée.</p>
+                    <ul class="tool-features">
+                        <li>Vidéos longues</li>
+                        <li>Haute qualité</li>
+                        <li>Compréhension du texte</li>
+                        <li>Mouvements fluides</li>
+                    </ul>
+                    <a href="https://deepmind.google/technologies/veo/" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">IN</div>
+                        <h3 class="tool-name">InVideo AI</h3>
+                    </div>
+				<div class="tool-card-img" style="background-image: url('https://play-lh.googleusercontent.com/DqsEiVrEVC2VbeRDinG_0gg5IlymTJMvq_R6BkeQkABwGwjc1Pm6jg1JrvHsZABOowQ=w3840-h2160-rw');">
+				</div>
+                    <p class="tool-description">Plateforme de création vidéo IA pour des vidéos marketing et de réseaux sociaux.</p>
+                    <ul class="tool-features">
+                        <li>Vidéos marketing</li>
+                        <li>Modèles personnalisables</li>
+                        <li>Musique libre de droits</li>
+                        <li>Édition facile</li>
+                    </ul>
+                    <a href="https://invideo.io/ai-video-editor/" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+                <div class="tool-card">
+  <div class="tool-header">
+    <div class="tool-logo">HF</div>
+    <h3 class="tool-name">Higgsfield</h3>
+  </div>
+  <div class="tool-card-img" style="background-image: url('https://img.ggsel.ru/5111599/original/AUTOxAUTO/8705215_imgwebp.webp');">
+  </div>
+  <p class="tool-description">
+    Plateforme IA spécialisée dans la génération vidéo cinématique.
+  </p>
+  <ul class="tool-features">
+    <li>Mouvements cinématographiques</li>
+    <li>Animations réalistes</li>
+    <li>Effets spéciaux avancés </li>
+
+  </ul>
+  <a href="https://higgsfield.ai" class="tool-link" target="_blank" rel="noopener noreferrer">Découvrir</a>
+</div>
+
+
+              <div class="tool-card">
+  <div class="tool-header">
+    <div class="tool-logo">W2</div>
+    <h3 class="tool-name">Wan 2.2</h3>
+  </div>
+  <div class="tool-card-img" style="background-image: url('https://i.ytimg.com/vi/f4sI_5-qBao/hq720.jpg');">
+  </div>
+  <p class="tool-description">
+    Générateur vidéo IA rapide orienté réseaux sociaux, open source avec options payantes en cloud.
+  </p>
+  <ul class="tool-features">
+    <li>Création vidéo instantanée</li>
+    <li>Modèles optimisés</li>
+    <li>Version gratuite avec quotas limités</li>
+  </ul>
+  <a href="https://wan.video/" class="tool-link" target="_blank" rel="noopener noreferrer">Découvrir</a>
+</div>
+
+            </div>
+        </section>
+
+        <!-- Section Texte -->
+        <section id="text" class="section">
+            <div class="section-header">
+                <svg class="section-icon" viewBox="0 0 24 24">
+                    <path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 10H3V8h2v4h2V8h2v4h2V8h2v4h2V8h2v4h2V8h2v8z"/>
+                </svg>
+                <h2 class="section-title">Générateurs de Texte IA</h2>
+            </div>
+            <div class="tools-grid">
+                 <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">CG</div>
+                        <h3 class="tool-name">ChatGPT</h3>
+                    </div>
+				 <div class="tool-card-img" style="background-image: url('https://lessentieldeleco.fr/wp-content/uploads/2025/08/nouveautes-chatgpt-5-tarification-fonctionnalites-1.webp');">
+				</div>
+                    <p class="tool-description">Le modèle de langage le plus populaire, excellent pour la conversation, la rédaction et le brainstorming.</p>
+                    <ul class="tool-features">
+                        <li>Conversation fluide</li>
+                        <li>Rédaction créative</li>
+                        <li>Large base de connaissances</li>
+                        <li>Interface simple</li>
+                    </ul>
+                    <a href="https://chat.openai.com" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">CL</div>
+                        <h3 class="tool-name">Claude</h3>
+                    </div><div class="tool-card-img" style="background-image: url('https://i.gadgets360cdn.com/large/claude_logo_1719386430289.jpg?downsize=400:*');">
+				</div>
+                    <p class="tool-description">Un concurrent sérieux de ChatGPT, connu pour sa grande fenêtre de contexte et sa sécurité.</p>
+                    <ul class="tool-features">
+                        <li>Grande fenêtre de contexte</li>
+                        <li>Sécurité renforcée</li>
+                        <li>Analyse de documents</li>
+                        <li>Ton conversationnel</li>
+                    </ul>
+                    <a href="https://claude.ai" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+               <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">GE</div>
+                        <h3 class="tool-name">Gemini</h3>
+                    </div>
+				 <div class="tool-card-img" style="background-image: url('https://storage.googleapis.com/gweb-uniblog-publish-prod/images/IO24_WhatsInAName_SocialShare_S96SOzG.width-1300.png');">
+				</div>
+                    <p class="tool-description">Le modèle multimodal de Google, capable de comprendre et de générer du texte, des images et du code.</p>
+                    <ul class="tool-features">
+                        <li>Multimodal</li>
+                        <li>Intégration Google</li>
+                        <li>Raisonnement complexe</li>
+                        <li>Performances élevées</li>
+                    </ul>
+                    <a href="https://gemini.google.com" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+               <div class="tool-card">
+  <div class="tool-header">
+    <div class="tool-logo">PS</div>
+    <h3 class="tool-name">Sonar - Perplexity</h3>
+  </div>
+  <div class="tool-card-img" style="background-image: url('https://americanbazaaronline.com/wp-content/uploads/2025/01/Screenshot-2025-01-22-at-11.23.59%E2%80%AFPM.png');">
+  </div>
+  <p class="tool-description">
+    Modèle IA optimisé pour la recherche en temps réel avec sources fiables.
+  </p>
+  <ul class="tool-features">
+    <li>Recherche web en temps réel</li>
+    <li>Réponses rapides et factuelles</li>
+    <li>Deux versions : Sonar rapide & Sonar Pro</li>
+    <li>Intégration API simple pour développeurs</li>
+  </ul>
+  <a href="https://www.perplexity.ai/" class="tool-link" target="_blank" rel="noopener noreferrer">Découvrir</a>
+</div>
+
+<div class="tool-card">
+  <div class="tool-header">
+    <div class="tool-logo">GK</div>
+    <h3 class="tool-name">Grok AI</h3>
+  </div>
+  <div class="tool-card-img" style="background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjvhOZj_qDRFu63b_eXrpJW9krGAEHsSuGVR9ZF7GpFOUBnksmDK6uwa952jWDPtuu8RI9ujGW2FjXuAJvCBBNhxjXhR42oc5Tkv70rbMlpBu0oNSkNS_QSPV-h8F85VVq6cP5eRVO0lQFo1zPe9_4fVI0tDSDO7zcpR2ZAFHM1j7QXR4JF9jl6s47Zwce3/s1600');">
+  </div>
+  <p class="tool-description">
+    Assistant IA multimodal développé par xAI, compréhension multimodale.
+  </p>
+  <ul class="tool-features">
+    <li>Accès à l’actualité X</li>
+    <li>Génération d’images</li>
+    <li>Résumé de documents</li>
+    <li>analyse de contenur</li>
+    <li>Chatbot évolué</li>
+  </ul>
+  <a href="https://grok.com" class="tool-link" target="_blank" rel="noopener noreferrer">Découvrir</a>
+</div>
+
+
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">NA</div>
+                        <h3 class="tool-name">Notion AI</h3>
+                    </div>
+				<div class="tool-card-img" style="background-image: url('https://bitcoinworld.co.in/wp-content/uploads/Notion-AI.png');">
+				</div>
+                    <p class="tool-description">Intégré à Notion, cet outil IA aide à la rédaction, au résumé et à l'organisation de notes.</p>
+                    <ul class="tool-features">
+                        <li>Intégration Notion</li>
+                        <li>Résumé de texte</li>
+                        <li>Génération de contenu</li>
+                        <li>Organisation de notes</li>
+                    </ul>
+                    <a href="https://www.notion.so/product/ai" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+                <div class="tool-card">
+  <div class="tool-header">
+    <div class="tool-logo">MC</div>
+    <h3 class="tool-name">Le Chat - Mistral</h3>
+  </div>
+  <div class="tool-card-img" style="background-image: url('https://scala-patrimoine.fr/wp-content/uploads/2025/09/Mistral-AI-Logo.jpg');">
+  </div>
+  <p class="tool-description">
+    Assistant IA conversationnel multilingue avancé, recherche web en temps réel, personnalisation, multimodale.
+  </p>
+  <ul class="tool-features">
+    <li>Modèles Next et Small</li>
+    <li>Analyses approfondies</li>
+    <li>Support multilingue</li>
+    <li>Intégration facile</li>
+  </ul>
+  <a href="https://mistral.ai/fr/products/le-chat" class="tool-link" target="_blank" rel="noopener noreferrer">Découvrir</a>
+</div>
+
+
+                 <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">WS</div>
+                        <h3 class="tool-name">Deepseek</h3>
+                    </div>
+				 <div class="tool-card-img" style="background-image: url('https://images.euronews.com/articles/stories/09/00/69/48/1536x864_cmsv2_4b3d5a33-60f6-5a9c-b545-18ffed37b354-9006948.jpg');">
+				</div>
+                    <p class="tool-description">
+    Open-source pour la recherche, la rédaction, la traduction, la programmation et l’analyse.
+  </p>
+  <ul class="tool-features">
+    <li>Recherche & synthèse</li>
+    <li>Support multilingue</li>
+    <li>Modèle “DeepThink” + complexe</li>
+    <li>Analyse et génération de code</li>
+  </ul>
+  <a href="https://deep-seek.ai" class="tool-link" target="_blank" rel="noopener noreferrer">Découvrir</a>
+</div>
+
+
+
+            </div>
+        </section>
+
+        <!-- Section Avatar -->
+        <section id="avatar" class="section">
+            <div class="section-header">
+                <svg class="section-icon" viewBox="0 0 24 24">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+                <h2 class="section-title">Générateurs d'Avatar IA</h2>
+            </div>
+            <div class="tools-grid">
+                
+                <div class="tool-card">  
+				<div class="tool-header">
+                        <div class="tool-logo">S</div>
+                        <h3 class="tool-name">Synthesia</h3>
+                    </div>
+				<div class="tool-card-img" style="background-image: url('https://cdn.prod.website-files.com/65224274fff7e2e198a708bb/68a048c6ef8a6ebd01687b92_Featured-image-550-X-340-15.jpg');">
+				</div>
+                    <p class="tool-description">Créez des vidéos avec des avatars IA réalistes en quelques minutes.</p>
+                    <ul class="tool-features">
+                        <li>Avatars réalistes</li>
+                        <li>Plus de 120 langues</li>
+                        <li>Modèles de vidéos</li>
+                        <li>Intégrations multiples</li>
+                    </ul>
+                    <a href="https://www.synthesia.io/" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+                <div class="tool-card"> 
+                    <div class="tool-header">
+                        <div class="tool-logo">H</div>
+                        <h3 class="tool-name">HeyGen</h3>
+                    </div>
+				<div class="tool-card-img" style="background-image: url('https://leswizards.com/wp-content/uploads/2024/02/heygen-logo.png');">
+				</div>
+                    <p class="tool-description">Plateforme de création vidéo avec des avatars IA personnalisables et des voix off.</p>
+                    <ul class="tool-features">
+                        <li>Avatars personnalisables</li>
+                        <li>Clonage de voix</li>
+                        <li>Plus de 300 voix</li>
+                        <li>Modèles vidéo</li>
+                        <li>Intégrations multiples</li>
+                    </ul>
+                    <a href="https://www.heygen.com/" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">D</div>
+                        <h3 class="tool-name">D-ID</h3>
+                    </div>
+				<div class="tool-card-img" style="background-image: url('https://play-lh.googleusercontent.com/V9nt6FzXPZstaAF-qhWUSjPsBljLlArq8fxu7bphETQDuwz38B9z72Ott6bxpKRwGWo');">
+					 </div>
+                    <p class="tool-description">Animez des photos pour créer des vidéos avec des avatars parlants.</p>
+                    <ul class="tool-features">
+                        <li>Animation de photos</li>
+                        <li>API disponible</li>
+                        <li>Voix naturelles</li>
+                        <li>Facile à utiliser</li>
+                    </ul>
+                    <a href="https://www.d-id.com/" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+                <div class="tool-card" style="background-image: url('https://files.manuscdn.com/user_upload_by_module/session_file/117940434/xNG1rqF5aeDB.jpg');">
+                    <div class="tool-header">
+                        <div class="tool-logo">C</div>
+                        <h3 class="tool-name">Colossyan</h3>
+                    </div>
+                    <p class="tool-description">Créez des vidéos de formation avec des acteurs IA et des traducteurs automatiques.</p>
+                    <ul class="tool-features">
+                        <li>Acteurs IA</li>
+                        <li>Traduction automatique</li>
+                        <li>Scénarios de formation</li>
+                        <li>Collaboration en équipe</li>
+                    </ul>
+                    <a href="https://www.colossyan.com/" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+                <div class="tool-card" style="background-image: url('https://files.manuscdn.com/user_upload_by_module/session_file/117940434/6GlrFszpTW0o.png');">
+                    <div class="tool-header">
+                        <div class="tool-logo">V</div>
+                        <h3 class="tool-name">Virbo</h3>
+                    </div>
+                    <p class="tool-description">Générateur de vidéos IA avec des avatars virtuels et des voix off.</p>
+                    <ul class="tool-features">
+                        <li>Avatars virtuels</li>
+                        <li>Plus de 300 voix</li>
+                        <li>Modèles vidéo</li>
+                        <li>Traduction vidéo</li>
+                    </ul>
+                    <a href="https://virbo.wondershare.com/" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+                <div class="tool-card" style="background-image: url('https://files.manuscdn.com/user_upload_by_module/session_file/117940434/NhDWv0as3qLs.png');">
+                    <div class="tool-header">
+                        <div class="tool-logo">PA</div>
+                        <h3 class="tool-name">Picsart AI Avatar</h3>
+                    </div>
+                    <p class="tool-description">Créez des avatars personnalisés à partir de vos photos avec des styles variés.</p>
+                    <ul class="tool-features">
+                        <li>Styles variés</li>
+                        <li>Personnalisation facile</li>
+                        <li>Haute résolution</li>
+                        <li>Partage facile</li>
+                    </ul>
+                    <a href="https://picsart.com/ai-avatar" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+                <div class="tool-card" style="background-image: url('https://files.manuscdn.com/user_upload_by_module/session_file/117940434/xNG1rqF5aeDB.jpg');">
+                    <div class="tool-header">
+                        <div class="tool-logo">F</div>
+                        <h3 class="tool-name">Fotor</h3>
+                    </div>
+                    <p class="tool-description">Générateur d'avatars IA en ligne pour créer des avatars à partir de texte ou de photos.</p>
+                    <ul class="tool-features">
+                        <li>Texte en avatar</li>
+                        <li>Photo en avatar</li>
+                        <li>Styles multiples</li>
+                        <li>Interface simple</li>
+                    </ul>
+                    <a href="https://www.fotor.com/features/ai-avatar-generator/" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+                <div class="tool-card" style="background-image: url('https://files.manuscdn.com/user_upload_by_module/session_file/117940434/6GlrFszpTW0o.png');">
+                    <div class="tool-header">
+                        <div class="tool-logo">V</div>
+                        <h3 class="tool-name">VEED.io</h3>
+                    </div>
+                    <p class="tool-description">Créez des avatars animés et parlants pour vos vidéos avec des voix IA.</p>
+                    <ul class="tool-features">
+                        <li>Avatars animés</li>
+                        <li>Voix IA</li>
+                        <li>Personnalisation</li>
+                        <li>Intégration vidéo</li>
+                    </ul>
+                    <a href="https://www.veed.io/tools/ai-avatar-generator" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+                <div class="tool-card" style="background-image: url('https://files.manuscdn.com/user_upload_by_module/session_file/117940434/NhDWv0as3qLs.png');">
+                    <div class="tool-header">
+                        <div class="tool-logo">S</div>
+                        <h3 class="tool-name">StarryAI</h3>
+                    </div>
+                    <p class="tool-description">Générateur d'art IA qui peut également être utilisé pour créer des avatars uniques.</p>
+                    <ul class="tool-features">
+                        <li>Génération d'art</li>
+                        <li>Styles personnalisables</li>
+                        <li>Contrôle créatif</li>
+                        <li>Communauté active</li>
+                    </ul>
+                    <a href="https://starryai.com/" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Codage -->
+        <section id="coding" class="section">
+            <div class="section-header">
+                <svg class="section-icon" viewBox="0 0 24 24">
+                    <path d="M14.6 16.6L19.2 12l-4.6-4.6L16 6l6 6-6 6-1.4-1.4zm-5.2 0L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4z"/>
+                </svg>
+                <h2 class="section-title">Outils de Codage IA</h2>
+            </div>
+            <div class="tools-grid">
+                <div class="tool-card" style="background-image: url('https://files.manuscdn.com/user_upload_by_module/session_file/117940434/3TOxJ6tp48YY.png');">
+                    <div class="tool-header">
+                        <div class="tool-logo">GC</div>
+                        <h3 class="tool-name">GitHub Copilot</h3>
+                    </div>
+                    <p class="tool-description">Assistant de codage IA qui suggère du code en temps réel.</p>
+                    <ul class="tool-features">
+                        <li>Suggestions de code</li>
+                        <li>Plusieurs langages</li>
+                        <li>Intégration IDE</li>
+                        <li>Apprentissage contextuel</li>
+                    </ul>
+                    <a href="https://github.com/features/copilot" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+                <div class="tool-card" style="background-image: url('https://files.manuscdn.com/user_upload_by_module/session_file/117940434/5vAL2q0yeM6n.webp');">
+                    <div class="tool-header">
+                        <div class="tool-logo">C</div>
+                        <h3 class="tool-name">Cursor</h3>
+                    </div>
+                    <p class="tool-description">Éditeur de code alimenté par l'IA pour une productivité accrue.</p>
+                    <ul class="tool-features">
+                        <li>Génération de code</li>
+                        <li>Débogage IA</li>
+                        <li>Refactoring</li>
+                        <li>Chat intégré</li>
+                    </ul>
+                    <a href="https://www.cursor.sh" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+                <div class="tool-card" style="background-image: url('https://files.manuscdn.com/user_upload_by_module/session_file/117940434/bNj6Vwcxnpe1.jpg');">
+                    <div class="tool-header">
+                        <div class="tool-logo">T</div>
+                        <h3 class="tool-name">Tabnine</h3>
+                    </div>
+                    <p class="tool-description">Complétion de code IA pour accélérer le développement.</p>
+                    <ul class="tool-features">
+                        <li>Complétion intelligente</li>
+                        <li>Apprentissage privé</li>
+                        <li>Support multilingue</li>
+                        <li>Intégration IDE</li>
+                    </ul>
+                    <a href="https://www.tabnine.com" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+                <div class="tool-card" style="background-image: url('https://files.manuscdn.com/user_upload_by_module/session_file/117940434/Y4x5TWljDUGB.png');">
+                    <div class="tool-header">
+                        <div class="tool-logo">CO</div>
+                        <h3 class="tool-name">Codeium</h3>
+                    </div>
+                    <p class="tool-description">Assistant de codage IA gratuit avec complétion et génération de code.</p>
+                    <ul class="tool-features">
+                        <li>Gratuit</li>
+                        <li>Complétion de code</li>
+                        <li>Génération de fonctions</li>
+                        <li>Support IDE étendu</li>
+                    </ul>
+                    <a href="https://www.codeium.com" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+                <div class="tool-card" style="background-image: url('https://files.manuscdn.com/user_upload_by_module/session_file/117940434/TrlI3RI3ZQU9.png');">
+                    <div class="tool-header">
+                        <div class="tool-logo">AQ</div>
+                        <h3 class="tool-name">Amazon Q Developer</h3>
+                    </div>
+                    <p class="tool-description">Assistant IA pour les développeurs AWS, pour générer et optimiser du code.</p>
+                    <ul class="tool-features">
+                        <li>Intégration AWS</li>
+                        <li>Génération de code</li>
+                        <li>Optimisation de code</li>
+                        <li>Débogage</li>
+                    </ul>
+                    <a href="https://aws.amazon.com/q/developer/" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+                <div class="tool-card" style="background-image: url('https://files.manuscdn.com/user_upload_by_module/session_file/117940434/pEWslCtqefPD.png');">
+                    <div class="tool-header">
+                        <div class="tool-logo">CS</div>
+                        <h3 class="tool-name">Codestral</h3>
+                    </div>
+                    <p class="tool-description">Modèle de langage de Mistral AI pour la génération de code performante.</p>
+                    <ul class="tool-features">
+                        <li>Génération de code</li>
+                        <li>Performances élevées</li>
+                        <li>Support multilingue</li>
+                        <li>Modèle open-source</li>
+                    </ul>
+                    <a href="https://mistral.ai/news/codestral/" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+                <div class="tool-card" style="background-image: url('https://files.manuscdn.com/user_upload_by_module/session_file/117940434/zssCmVZeLEwz.jpg');">
+                    <div class="tool-header">
+                        <div class="tool-logo">RE</div>
+                        <h3 class="tool-name">Replit AI</h3>
+                    </div>
+                    <p class="tool-description">Environnement de développement intégré avec des fonctionnalités IA pour coder plus rapidement.</p>
+                    <ul class="tool-features">
+                        <li>Génération de code</li>
+                        <li>Débogage</li>
+                        <li>Environnement cloud</li>
+                        <li>Collaboration</li>
+                    </ul>
+                    <a href="https://replit.com/ai" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+                <div class="tool-card" style="background-image: url('https://files.manuscdn.com/user_upload_by_module/session_file/117940434/na3eI2eiH4aY.png');">
+                    <div class="tool-header">
+                        <div class="tool-logo">BP</div>
+                        <h3 class="tool-name">Blackbox AI</h3>
+                    </div>
+                    <p class="tool-description">Assistant de codage IA pour la recherche de code, la complétion et la génération.</p>
+                    <ul class="tool-features">
+                        <li>Recherche de code</li>
+                        <li>Complétion rapide</li>
+                        <li>Génération de fonctions</li>
+                        <li>Support multilingue</li>
+                    </ul>
+                    <a href="https://www.blackbox.ai" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+
+                <div class="tool-card" style="background-image: url('https://files.manuscdn.com/user_upload_by_module/session_file/117940434/oRCffIsoeh85.jpg');">
+                    <div class="tool-header">
+                        <div class="tool-logo">SO</div>
+                        <h3 class="tool-name">Sourcegraph Cody</h3>
+                    </div>
+                    <p class="tool-description">Assistant de code IA qui utilise la base de code de votre entreprise pour des suggestions précises.</p>
+                    <ul class="tool-features">
+                        <li>Connaissance du code</li>
+                        <li>Suggestions précises</li>
+                        <li>Intégration IDE</li>
+                        <li>Sécurité des données</li>
+                    </ul>
+                    <a href="https://sourcegraph.com/cody" class="tool-link" target="_blank">Découvrir</a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+    <footer>
+        <p>&copy; 2025 Newsletter IA Générative. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>
+
